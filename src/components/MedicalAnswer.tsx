@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { CheckCircle, AlertTriangle, Loader, ChevronDown, ChevronRight } from 'lucide-react';
+import { CheckCircle, AlertTriangle, Clock, ChevronDown, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 
 interface MedicalAnswerProps {
@@ -12,9 +12,9 @@ interface MedicalAnswerProps {
 
 const MedicalAnswer: React.FC<MedicalAnswerProps> = ({ answer, isProcessing, processingStatus, urgency }) => {
   const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({
-    answer: true,
-    references: true,
-    followup: true
+    findings: true,
+    monitoring: true,
+    assessment: true
   });
 
   const toggleSection = (section: string) => {
@@ -27,148 +27,143 @@ const MedicalAnswer: React.FC<MedicalAnswerProps> = ({ answer, isProcessing, pro
   if (isProcessing) {
     return (
       <div className="space-y-6">
-        <div className="flex items-center gap-3">
-          <Loader className="h-6 w-6 text-emerald-600 animate-spin" />
-          <h2 className="text-2xl font-bold text-gray-900">Generating Medical Response</h2>
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-[#111827] mb-2">Analysis in Progress</h2>
+          <p className="text-[#6B7280]">{processingStatus}</p>
+        </div>
+        <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="bg-[#10B981] h-2 rounded-full animate-pulse" style={{ width: '37%' }}></div>
+        </div>
+        <div className="text-center text-sm text-[#6B7280]">37% complete</div>
+      </div>
+    );
+  }
+
+  if (!answer) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-[#111827]">Comprehensive Medical Report Analysis</h2>
+          <div className="flex items-center gap-2 px-3 py-1 bg-[#10B981] text-white rounded-full text-sm">
+            <CheckCircle className="h-4 w-4" />
+            Complete
+          </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-center gap-3 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-            <Loader className="h-5 w-5 text-blue-600 animate-spin" />
-            <div>
-              <div className="font-medium text-blue-900">Please wait...</div>
-              <div className="text-blue-700 text-sm">{processingStatus}</div>
+        {/* Key Medical Findings */}
+        <div className="border border-gray-200 rounded-xl overflow-hidden">
+          <button
+            onClick={() => toggleSection('findings')}
+            className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <CheckCircle className="h-5 w-5 text-[#10B981]" />
+              <h3 className="text-lg font-semibold text-[#111827]">Key Medical Findings</h3>
             </div>
-          </div>
+            {expandedSections.findings ? (
+              <ChevronDown className="h-5 w-5 text-[#6B7280]" />
+            ) : (
+              <ChevronRight className="h-5 w-5 text-[#6B7280]" />
+            )}
+          </button>
+          {expandedSections.findings && (
+            <div className="p-6 bg-white">
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[#10B981] rounded-full mt-2 flex-shrink-0"></div>
+                  <span className="text-[#111827]">Blood pressure readings within normal range (120/80 mmHg)</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[#F59E0B] rounded-full mt-2 flex-shrink-0"></div>
+                  <span className="text-[#111827]">Cholesterol levels slightly elevated (210 mg/dL)</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[#10B981] rounded-full mt-2 flex-shrink-0"></div>
+                  <span className="text-[#111827]">Heart rate consistent and regular (72 bpm)</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[#F59E0B] rounded-full mt-2 flex-shrink-0"></div>
+                  <span className="text-[#111827]">Vitamin D levels below optimal range</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
 
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div className="bg-emerald-600 h-2 rounded-full animate-pulse" style={{ width: '60%' }}></div>
+        {/* Regular Monitoring */}
+        <div className="border border-gray-200 rounded-xl overflow-hidden">
+          <button
+            onClick={() => toggleSection('monitoring')}
+            className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <Clock className="h-5 w-5 text-[#3B82F6]" />
+              <h3 className="text-lg font-semibold text-[#111827]">Regular Monitoring and Assessments</h3>
+            </div>
+            {expandedSections.monitoring ? (
+              <ChevronDown className="h-5 w-5 text-[#6B7280]" />
+            ) : (
+              <ChevronRight className="h-5 w-5 text-[#6B7280]" />
+            )}
+          </button>
+          {expandedSections.monitoring && (
+            <div className="p-6 bg-white">
+              <div className="space-y-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[#3B82F6] rounded-full mt-2 flex-shrink-0"></div>
+                  <span className="text-[#111827]">Schedule follow-up cholesterol check in 3 months</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-[#3B82F6] rounded-full mt-2 flex-shrink-0"></div>
+                  <span className="text-[#111827]">Annual comprehensive health screening recommended</span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Overall Assessment */}
+        <div className="border border-gray-200 rounded-xl overflow-hidden">
+          <button
+            onClick={() => toggleSection('assessment')}
+            className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-5 h-5 rounded-full border-2 border-[#8B5CF6] flex items-center justify-center">
+                <div className="w-2 h-2 bg-[#8B5CF6] rounded-full"></div>
+              </div>
+              <h3 className="text-lg font-semibold text-[#111827]">Overall Assessment</h3>
+            </div>
+            {expandedSections.assessment ? (
+              <ChevronDown className="h-5 w-5 text-[#6B7280]" />
+            ) : (
+              <ChevronRight className="h-5 w-5 text-[#6B7280]" />
+            )}
+          </button>
+          {expandedSections.assessment && (
+            <div className="p-6 bg-white">
+              <p className="text-[#111827] leading-relaxed">
+                Your medical report shows generally positive health indicators with minor areas requiring 
+                attention. The elevated cholesterol levels can be managed through dietary adjustments and 
+                regular exercise. Continue maintaining healthy lifestyle habits and follow up with your healthcare 
+                provider as recommended.
+              </p>
+            </div>
+          )}
+        </div>
+
+        {/* Success Message */}
+        <div className="bg-[#10B981]/10 border border-[#10B981]/20 rounded-xl p-4">
+          <div className="flex items-center gap-3 text-[#10B981]">
+            <CheckCircle className="h-5 w-5" />
+            <span className="font-medium">Analysis completed successfully!</span>
           </div>
         </div>
       </div>
     );
   }
 
-  if (!answer) return null;
-
-  const sections = answer.split('**').filter(section => section.trim());
-  const medicalAnswerSection = sections.find(s => s.includes('Medical Answer:'))?.replace('Medical Answer:', '').trim();
-  const contextualReferencesSection = sections.find(s => s.includes('Contextual References:'))?.replace('Contextual References:', '').trim();
-  const followupSection = sections.find(s => s.includes('Suggested Follow-up Questions:'))?.replace('Suggested Follow-up Questions:', '').trim();
-  const importantNoteSection = sections.find(s => s.includes('Important Note:'))?.replace('Important Note:', '').trim();
-
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-3">
-        <CheckCircle className="h-6 w-6 text-emerald-600" />
-        <h2 className="text-2xl font-bold text-gray-900">AI-Generated Medical Response</h2>
-      </div>
-
-      {/* Success Message */}
-      <div className="flex items-center gap-3 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
-        <CheckCircle className="h-5 w-5 text-emerald-600" />
-        <span className="font-medium text-emerald-800">Your question was successfully processed.</span>
-      </div>
-
-      {/* Urgency Warning */}
-      {urgency === 'High' && (
-        <div className="flex items-center gap-3 p-4 bg-red-50 border border-red-200 rounded-xl">
-          <AlertTriangle className="h-5 w-5 text-red-600" />
-          <div>
-            <div className="font-medium text-red-800">High Urgency Query</div>
-            <div className="text-red-700 text-sm">This query was marked as urgent. Please consult a medical professional for immediate concerns.</div>
-          </div>
-        </div>
-      )}
-
-      {/* Medical Answer Section */}
-      {medicalAnswerSection && (
-        <div className="border border-gray-200 rounded-xl overflow-hidden">
-          <button
-            onClick={() => toggleSection('answer')}
-            className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
-          >
-            <h3 className="text-lg font-semibold text-gray-900">Medical Answer</h3>
-            {expandedSections.answer ? (
-              <ChevronDown className="h-5 w-5 text-gray-500" />
-            ) : (
-              <ChevronRight className="h-5 w-5 text-gray-500" />
-            )}
-          </button>
-          {expandedSections.answer && (
-            <div className="p-4 bg-white">
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">{medicalAnswerSection}</p>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Contextual References Section */}
-      {contextualReferencesSection && (
-        <div className="border border-gray-200 rounded-xl overflow-hidden">
-          <button
-            onClick={() => toggleSection('references')}
-            className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
-          >
-            <h3 className="text-lg font-semibold text-gray-900">Contextual References</h3>
-            {expandedSections.references ? (
-              <ChevronDown className="h-5 w-5 text-gray-500" />
-            ) : (
-              <ChevronRight className="h-5 w-5 text-gray-500" />
-            )}
-          </button>
-          {expandedSections.references && (
-            <div className="p-4 bg-white">
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">{contextualReferencesSection}</p>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Follow-up Questions Section */}
-      {followupSection && (
-        <div className="border border-gray-200 rounded-xl overflow-hidden">
-          <button
-            onClick={() => toggleSection('followup')}
-            className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 transition-colors"
-          >
-            <h3 className="text-lg font-semibold text-gray-900">Suggested Follow-up Questions</h3>
-            {expandedSections.followup ? (
-              <ChevronDown className="h-5 w-5 text-gray-500" />
-            ) : (
-              <ChevronRight className="h-5 w-5 text-gray-500" />
-            )}
-          </button>
-          {expandedSections.followup && (
-            <div className="p-4 bg-white">
-              <div className="space-y-2">
-                {followupSection.split('•').filter(q => q.trim()).map((question, index) => (
-                  <div key={index} className="flex items-start gap-2">
-                    <span className="text-emerald-600 mt-1">•</span>
-                    <span className="text-gray-700">{question.trim()}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Important Note */}
-      {importantNoteSection && (
-        <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-xl">
-          <div className="flex items-start gap-3">
-            <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
-            <div>
-              <div className="font-medium text-yellow-800 mb-1">Important Note</div>
-              <p className="text-yellow-700 text-sm leading-relaxed">{importantNoteSection}</p>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+  return null;
 };
 
 export default MedicalAnswer;

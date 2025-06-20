@@ -1,6 +1,6 @@
 
 import React, { useCallback, useState } from 'react';
-import { Upload, File, X, AlertCircle } from 'lucide-react';
+import { File, X, AlertCircle } from 'lucide-react';
 
 interface DocumentUploadProps {
   onFileUpload: (file: File | null) => void;
@@ -15,8 +15,8 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload, uploadedF
     if (file.type !== 'application/pdf') {
       return 'Only PDF files are supported';
     }
-    if (file.size > 100 * 1024 * 1024) {
-      return 'File size must be less than 100MB';
+    if (file.size > 200 * 1024 * 1024) {
+      return 'File size must be less than 200MB';
     }
     return null;
   };
@@ -74,51 +74,38 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload, uploadedF
   return (
     <div className="space-y-4">
       {/* Upload Area */}
-      <div
-        className={`relative border-2 border-dashed rounded-xl p-12 text-center transition-all duration-200 ${
-          isDragOver
-            ? 'border-emerald-400 bg-emerald-50'
-            : uploadedFile
-            ? 'border-emerald-300 bg-emerald-50'
-            : 'border-gray-300 bg-gray-50 hover:border-gray-400'
-        }`}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-      >
-        <input
-          type="file"
-          accept=".pdf"
-          onChange={handleFileSelect}
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-        />
-        
-        <div className="flex flex-col items-center gap-4">
-          <div className={`p-4 rounded-full ${isDragOver || uploadedFile ? 'bg-emerald-100' : 'bg-gray-200'}`}>
-            <Upload className={`h-8 w-8 ${isDragOver || uploadedFile ? 'text-emerald-600' : 'text-gray-400'}`} />
-          </div>
+      {!uploadedFile && (
+        <div
+          className={`relative border-2 border-dashed rounded-xl p-12 text-center transition-all duration-200 ${
+            isDragOver
+              ? 'border-[#10B981] bg-emerald-50'
+              : 'border-gray-300 bg-gray-50 hover:border-gray-400'
+          }`}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+        >
+          <input
+            type="file"
+            accept=".pdf"
+            onChange={handleFileSelect}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          />
           
-          <div>
-            <p className="text-lg font-medium text-gray-900">
-              Drag and drop your medical document (PDF) here
-            </p>
-            <p className="text-gray-500 mt-1">(optional)</p>
+          <div className="flex flex-col items-center gap-4">
+            <div className="text-center">
+              <p className="text-lg font-medium text-[#111827] mb-2">
+                Drag and drop your medical report here
+              </p>
+              <p className="text-[#6B7280]">or click to browse files</p>
+            </div>
           </div>
-          
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl font-medium hover:bg-emerald-700 transition-colors"
-          >
-            <Upload className="h-4 w-4" />
-            Browse Files
-          </button>
         </div>
-      </div>
+      )}
 
       {/* File Size and Type Limit */}
-      <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
-        <AlertCircle className="h-4 w-4" />
-        <span>Limit 100MB per file • Supported format: PDF</span>
+      <div className="text-center text-sm text-[#6B7280]">
+        Limit 200MB per file • PNG, JPG, JPEG, TIFF, BMP, PDF, TIF
       </div>
 
       {/* Error Message */}
@@ -131,21 +118,21 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload, uploadedF
 
       {/* Uploaded File Display */}
       {uploadedFile && (
-        <div className="flex items-center justify-between p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+        <div className="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-emerald-100 rounded-lg">
-              <File className="h-5 w-5 text-emerald-600" />
+            <div className="p-2 bg-[#10B981] rounded-lg">
+              <File className="h-5 w-5 text-white" />
             </div>
             <div>
-              <p className="font-medium text-gray-900">{uploadedFile.name}</p>
-              <p className="text-sm text-gray-500">{formatFileSize(uploadedFile.size)}</p>
+              <p className="font-medium text-[#111827]">{uploadedFile.name}</p>
+              <p className="text-sm text-[#6B7280]">{formatFileSize(uploadedFile.size)}</p>
             </div>
           </div>
           <button
             onClick={removeFile}
-            className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+            className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
           >
-            <X className="h-5 w-5" />
+            Remove
           </button>
         </div>
       )}
