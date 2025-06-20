@@ -6,6 +6,7 @@ import QuestionInput from '@/components/QuestionInput';
 import MedicalAnswer from '@/components/MedicalAnswer';
 import ChatHistory from '@/components/ChatHistory';
 import MedicalDisclaimer from '@/components/MedicalDisclaimer';
+import { Upload, MessageSquare, Shield, Stethoscope } from 'lucide-react';
 
 interface ChatMessage {
   id: string;
@@ -56,13 +57,13 @@ const Index = () => {
     setCurrentAnswer(null);
     
     // Simulate processing steps
-    setProcessingStatus('Processing your document…');
+    setProcessingStatus('Processing your document...');
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    setProcessingStatus('Analyzing your question…');
+    setProcessingStatus('Analyzing your question...');
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    setProcessingStatus('Generating answer…');
+    setProcessingStatus('Generating answer...');
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Generate mock medical response
@@ -106,62 +107,101 @@ ${prefs.urgency === 'High' ? '⚠️ This query was marked as urgent. Please con
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-[#013145] text-white">
-        <div className="max-w-7xl mx-auto px-6 py-20">
-          <div className="text-center">
-            <h1 className="text-5xl font-bold mb-4">Medical Report Analysis Tool</h1>
-            <p className="text-xl text-white/80 max-w-2xl mx-auto">
-              Upload your medical reports and get AI-powered analysis with follow-up questions
-            </p>
+      <header className="bg-gradient-to-r from-[#013145] to-[#016075] text-white shadow-lg">
+        <div className="max-w-7xl mx-auto px-6 py-8">
+          <div className="flex items-center gap-4 mb-4">
+            <div className="p-3 bg-white/10 rounded-xl">
+              <Stethoscope className="h-8 w-8" />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold">MedicalQnA Assistant</h1>
+              <p className="text-xl text-white/80 mt-2">AI-powered medical consultation and document analysis</p>
+            </div>
+          </div>
+          
+          {/* Stats */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+              <div className="flex items-center gap-3">
+                <Upload className="h-6 w-6 text-emerald-300" />
+                <div>
+                  <div className="text-2xl font-bold">PDF Upload</div>
+                  <div className="text-white/70">Document Analysis</div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+              <div className="flex items-center gap-3">
+                <MessageSquare className="h-6 w-6 text-emerald-300" />
+                <div>
+                  <div className="text-2xl font-bold">Smart Q&A</div>
+                  <div className="text-white/70">Contextual Answers</div>
+                </div>
+              </div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6">
+              <div className="flex items-center gap-3">
+                <Shield className="h-6 w-6 text-emerald-300" />
+                <div>
+                  <div className="text-2xl font-bold">Secure</div>
+                  <div className="text-white/70">Privacy Protected</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <div className="space-y-8">
-          {/* Document Upload Section */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-2xl font-bold text-[#111827] mb-6">Document Upload Section</h2>
-            <DocumentUpload onFileUpload={handleFileUpload} uploadedFile={uploadedFile} />
-          </div>
-
-          {/* User Preferences Section */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-2xl font-bold text-[#111827] mb-6">User Preferences Section</h2>
-            <UserPreferences preferences={preferences} onChange={handlePreferencesChange} />
-          </div>
-
-          {/* Medical Answer or Analysis */}
-          {(currentAnswer || isProcessing) && (
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Input Section */}
+          <div className="lg:col-span-2 space-y-8">
+            {/* Document Upload */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-              <MedicalAnswer 
-                answer={currentAnswer} 
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <Upload className="h-6 w-6 text-emerald-600" />
+                Document Upload
+              </h2>
+              <DocumentUpload onFileUpload={handleFileUpload} uploadedFile={uploadedFile} />
+            </div>
+
+            {/* User Preferences */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6">User Preferences</h2>
+              <UserPreferences preferences={preferences} onChange={handlePreferencesChange} />
+            </div>
+
+            {/* Question Input */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                <MessageSquare className="h-6 w-6 text-emerald-600" />
+                Ask Your Question
+              </h2>
+              <QuestionInput 
+                onSubmit={handleQuestionSubmit} 
                 isProcessing={isProcessing}
                 processingStatus={processingStatus}
-                urgency={preferences.urgency}
               />
             </div>
-          )}
 
-          {/* Question Input Section */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-2xl font-bold text-[#111827] mb-6">Question Input Section</h2>
-            <QuestionInput 
-              onSubmit={handleQuestionSubmit} 
-              isProcessing={isProcessing}
-              processingStatus={processingStatus}
-            />
+            {/* Medical Answer */}
+            {(currentAnswer || isProcessing) && (
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+                <MedicalAnswer 
+                  answer={currentAnswer} 
+                  isProcessing={isProcessing}
+                  processingStatus={processingStatus}
+                  urgency={preferences.urgency}
+                />
+              </div>
+            )}
           </div>
 
-          {/* Chat History Section */}
-          {chatHistory.length > 0 && (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-              <ChatHistory messages={chatHistory} />
-            </div>
-          )}
-
-          {/* Medical Disclaimer */}
-          <MedicalDisclaimer />
+          {/* Right Column - Chat History */}
+          <div className="space-y-8">
+            <ChatHistory messages={chatHistory} />
+            <MedicalDisclaimer />
+          </div>
         </div>
       </div>
     </div>
