@@ -56,13 +56,13 @@ const Index = () => {
     setCurrentAnswer(null);
     
     // Simulate processing steps
-    setProcessingStatus('Processing your document...');
+    setProcessingStatus('Processing your document…');
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    setProcessingStatus('Analyzing your question...');
+    setProcessingStatus('Analyzing your question…');
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    setProcessingStatus('Generating answer...');
+    setProcessingStatus('Generating answer…');
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     // Generate mock medical response
@@ -119,14 +119,15 @@ ${prefs.urgency === 'High' ? '⚠️ This query was marked as urgent. Please con
 
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="space-y-8">
-          {/* Document Upload */}
+          {/* Document Upload Section */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-2xl font-bold text-[#111827] mb-6">Upload Medical Report</h2>
+            <h2 className="text-2xl font-bold text-[#111827] mb-6">Document Upload Section</h2>
             <DocumentUpload onFileUpload={handleFileUpload} uploadedFile={uploadedFile} />
           </div>
 
-          {/* User Preferences */}
+          {/* User Preferences Section */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+            <h2 className="text-2xl font-bold text-[#111827] mb-6">User Preferences Section</h2>
             <UserPreferences preferences={preferences} onChange={handlePreferencesChange} />
           </div>
 
@@ -142,9 +143,9 @@ ${prefs.urgency === 'High' ? '⚠️ This query was marked as urgent. Please con
             </div>
           )}
 
-          {/* Question Input */}
+          {/* Question Input Section */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <h2 className="text-2xl font-bold text-[#111827] mb-6">Ask a Follow-up Question</h2>
+            <h2 className="text-2xl font-bold text-[#111827] mb-6">Question Input Section</h2>
             <QuestionInput 
               onSubmit={handleQuestionSubmit} 
               isProcessing={isProcessing}
@@ -152,7 +153,7 @@ ${prefs.urgency === 'High' ? '⚠️ This query was marked as urgent. Please con
             />
           </div>
 
-          {/* Chat History */}
+          {/* Chat History Section */}
           {chatHistory.length > 0 && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
               <ChatHistory messages={chatHistory} />

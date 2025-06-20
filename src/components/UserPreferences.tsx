@@ -33,7 +33,7 @@ const UserPreferencesComponent: React.FC<UserPreferencesProps> = ({ preferences,
   const responseLengths = [
     { value: 'Concise', label: 'Concise', description: 'Brief, essential points' },
     { value: 'Moderate', label: 'Moderate', description: 'Balanced detail' },
-    { value: 'Detailed', label: 'Detailed', description: 'Comprehensive information' }
+    { value: 'Prolonged', label: 'Prolonged', description: 'Comprehensive information' }
   ];
 
   return (
@@ -42,7 +42,7 @@ const UserPreferencesComponent: React.FC<UserPreferencesProps> = ({ preferences,
       <div>
         <div className="flex items-center gap-2 mb-4">
           <User className="h-5 w-5 text-emerald-600" />
-          <h3 className="text-lg font-semibold text-gray-900">User Type</h3>
+          <h3 className="text-lg font-semibold text-gray-900">User Type Selector</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {userTypes.map((type) => (
@@ -86,7 +86,7 @@ const UserPreferencesComponent: React.FC<UserPreferencesProps> = ({ preferences,
       <div>
         <div className="flex items-center gap-2 mb-4">
           <Clock className="h-5 w-5 text-emerald-600" />
-          <h3 className="text-lg font-semibold text-gray-900">Urgency Level</h3>
+          <h3 className="text-lg font-semibold text-gray-900">Urgency Level Selector</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {urgencyLevels.map((level) => (
@@ -131,11 +131,11 @@ const UserPreferencesComponent: React.FC<UserPreferencesProps> = ({ preferences,
         </div>
       </div>
 
-      {/* Response Length Selector */}
+      {/* Preferred Response Length Selector */}
       <div>
         <div className="flex items-center gap-2 mb-4">
           <FileText className="h-5 w-5 text-emerald-600" />
-          <h3 className="text-lg font-semibold text-gray-900">Preferred Response Length</h3>
+          <h3 className="text-lg font-semibold text-gray-900">Preferred Response Length Selector</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {responseLengths.map((length) => (

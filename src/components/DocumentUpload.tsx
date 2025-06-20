@@ -15,8 +15,8 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload, uploadedF
     if (file.type !== 'application/pdf') {
       return 'Only PDF files are supported';
     }
-    if (file.size > 200 * 1024 * 1024) {
-      return 'File size must be less than 200MB';
+    if (file.size > 100 * 1024 * 1024) {
+      return 'File size must be less than 100MB';
     }
     return null;
   };
@@ -95,9 +95,11 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload, uploadedF
           <div className="flex flex-col items-center gap-4">
             <div className="text-center">
               <p className="text-lg font-medium text-[#111827] mb-2">
-                Drag and drop your medical report here
+                Drag and drop your medical document (PDF) here (optional)
               </p>
-              <p className="text-[#6B7280]">or click to browse files</p>
+              <button className="text-[#10B981] font-medium hover:underline">
+                Browse Files
+              </button>
             </div>
           </div>
         </div>
@@ -105,7 +107,7 @@ const DocumentUpload: React.FC<DocumentUploadProps> = ({ onFileUpload, uploadedF
 
       {/* File Size and Type Limit */}
       <div className="text-center text-sm text-[#6B7280]">
-        Limit 200MB per file • PNG, JPG, JPEG, TIFF, BMP, PDF, TIF
+        Limit 100MB per file • Supported format: PDF
       </div>
 
       {/* Error Message */}

@@ -27,7 +27,7 @@ const QuestionInput: React.FC<QuestionInputProps> = ({ onSubmit, isProcessing, p
             type="text"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Enter your specific question about the medical report"
+            placeholder="Enter your medical question here…"
             className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#10B981] focus:border-[#10B981] text-[#111827] placeholder-[#9CA3AF]"
             disabled={isProcessing}
           />
@@ -38,7 +38,7 @@ const QuestionInput: React.FC<QuestionInputProps> = ({ onSubmit, isProcessing, p
           disabled={!question.trim() || isProcessing}
           className="w-full px-6 py-3 bg-[#10B981] text-white rounded-xl font-medium hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-          {isProcessing ? 'Processing...' : 'Get Answer'}
+          {isProcessing ? 'Processing...' : 'Ask Question'}
         </button>
       </form>
 
@@ -46,7 +46,7 @@ const QuestionInput: React.FC<QuestionInputProps> = ({ onSubmit, isProcessing, p
       {isProcessing && (
         <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
           <div className="text-center">
-            <div className="font-medium text-blue-900 mb-2">Analysis in Progress</div>
+            <div className="font-medium text-blue-900 mb-2">Your question is being processed, please wait…</div>
             <div className="text-blue-700 text-sm mb-4">{processingStatus}</div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div className="bg-[#10B981] h-2 rounded-full animate-pulse" style={{ width: '37%' }}></div>
